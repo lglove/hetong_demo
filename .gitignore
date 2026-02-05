@@ -1,0 +1,51 @@
+# SSL 证书文件（私钥不应提交到版本控制）
+ssl/*.pem
+ssl/*.key
+ssl/*.csr
+ssl/*.crt
+
+# Let's Encrypt 证书（如果使用本地存储）
+certbot/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Node
+node_modules/
+dist/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 环境变量
+.env
+.env.local
+
+# 日志
+*.log
+logs/
+
+# 上传文件
+uploads/
+backend/uploads/

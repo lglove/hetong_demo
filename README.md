@@ -11,14 +11,32 @@
 ## 快速启动（Docker Compose）
 
 1. 确保已安装 Docker 与 Docker Compose。
-2. 在项目根目录执行：
+
+2. **配置 SSL 证书（HTTPS 必需）**
+
+   **开发/测试环境**（使用自签名证书）：
+   ```bash
+   ./scripts/generate-self-signed-cert.sh
+   ```
+
+   **生产环境**（使用 Let's Encrypt 证书）：
+   - 详见 `ssl/README.md`
+   - 需要域名已解析到服务器 IP
+   - 使用 certbot 获取证书后，将证书复制到 `ssl/` 目录
+
+3. 在项目根目录执行：
 
 ```bash
 docker-compose up -d
 ```
 
-3. 等待服务就绪（约 30 秒），访问：**http://localhost**  
-4. 默认超级管理员账号：**admin** / **admin123**（首次启动会自动创建）。
+4. 等待服务就绪（约 30 秒），访问：
+   - **HTTPS**: https://localhost（或你的域名）
+   - **HTTP**: http://localhost（会自动重定向到 HTTPS）
+   
+5. 默认超级管理员账号：**admin** / **admin123**（首次启动会自动创建）。
+
+**注意**：使用自签名证书时，浏览器会显示安全警告，需要手动信任（点击"高级" -> "继续访问"）。生产环境请使用 Let's Encrypt 证书。
 
 ## 本地开发
 
@@ -82,10 +100,32 @@ pnpm dev
 | 9 | 管理员创建财务账号并登录 | 该账号仅能查看合同 |
 | 10 | 未登录访问 /contracts | 401，跳转登录页 |
 
+## HTTPS 配置
+
+项目已配置支持 HTTPS，默认使用 443 端口。
+
+### SSL 证书配置
+
+- **开发/测试环境**：使用自签名证书（运行 `./scripts/generate-self-signed-cert.sh`）
+- **生产环境**：推荐使用 Let's Encrypt 免费证书（详见 `ssl/README.md`）
+
+证书文件应放置在 `ssl/` 目录：
+- `ssl/cert.pem` - SSL 证书文件
+- `ssl/key.pem` - SSL 私钥文件
+
+### Nginx 配置
+
+- HTTP (80端口) 自动重定向到 HTTPS
+- HTTPS (443端口) 提供应用服务
+- 已配置安全头（HSTS、X-Frame-Options 等）
+- 支持 Let's Encrypt 证书验证路径（`/.well-known/acme-challenge/`）
+
 ## 项目结构
 
 - `backend/`：FastAPI 应用、模型、API、存储抽象与本地实现、Alembic 迁移。
 - `frontend/`：Vite + React、路由、合同/用户页面、API 封装。
 - `docker-compose.yml`：postgres、backend、frontend（nginx）编排。
+- `ssl/`：SSL 证书目录（需自行配置）。
+- `scripts/`：部署脚本（如生成自签名证书）。
 
 文件上传当前为本地磁盘存储，接口已抽象，后续可替换为 OSS 实现。
