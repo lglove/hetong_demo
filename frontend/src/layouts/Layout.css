@@ -1,0 +1,120 @@
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: #1a365d;
+  color: #fff;
+  padding: 0 16px;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.app-header-inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.app-menu-btn {
+  display: none;
+  color: #fff !important;
+  font-size: 18px;
+  padding: 8px;
+}
+
+.app-brand {
+  font-weight: 600;
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.app-nav {
+  display: flex;
+  gap: 24px;
+}
+
+.app-nav a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.app-nav a:hover,
+.app-nav a.active {
+  color: #fff;
+}
+
+.app-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-username {
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-user .ant-btn-link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.app-user .ant-btn-link:hover {
+  color: #fff;
+}
+
+.app-drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.app-drawer-nav a {
+  color: #1a1a2e;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.app-drawer-user {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.app-main {
+  flex: 1;
+  padding: 16px;
+  background: #f5f6f8;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .app-menu-btn {
+    display: inline-flex;
+  }
+
+  .app-nav {
+    display: none;
+  }
+
+  .app-username {
+    display: none;
+  }
+
+  .app-main {
+    padding: 12px;
+  }
+}
+

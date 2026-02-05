@@ -1,0 +1,34 @@
+* {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #f5f6f8;
+  color: #1a1a2e;
+  overflow-x: hidden;
+}
+#root {
+  min-height: 100vh;
+  min-width: 0;
+}
+
+.contract-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .contract-detail-card .ant-card-extra {
+    margin-bottom: 8px;
+  }
+  .contract-detail-actions {
+    width: 100%;
+  }
+  .login-card {
+    margin: 16px;
+  }
+}
