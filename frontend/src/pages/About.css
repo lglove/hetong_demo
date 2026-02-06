@@ -1,0 +1,350 @@
+:root {
+:  --aboutBg: #0b0c10;
+:  --aboutText: #e8eaf0;
+:  --aboutMuted: rgba(232, 234, 240, 0.72);
+:  --aboutCard: rgba(255, 255, 255, 0.06);
+:  --aboutBorder: rgba(255, 255, 255, 0.12);
+:  --aboutPrimary: #6aa6ff;
+:  --aboutPrimary2: #9b7bff;
+:  --aboutShadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+:}
+
+@media (prefers-color-scheme: light) {
+:  :root {
+:    --aboutBg: #ffffff;
+:    --aboutText: #0f1220;
+:    --aboutMuted: rgba(15, 18, 32, 0.7);
+:    --aboutCard: rgba(15, 18, 32, 0.04);
+:    --aboutBorder: rgba(15, 18, 32, 0.12);
+:    --aboutPrimary: #1677ff;
+:    --aboutPrimary2: #9254de;
+:    --aboutShadow: 0 10px 30px rgba(15, 18, 32, 0.12);
+:  }
+:}
+
+.aboutPage {
+  min-height: 100vh;
+  background: radial-gradient(1200px 600px at 20% 0%, rgba(106, 166, 255, 0.18), transparent 60%),
+    radial-gradient(1000px 600px at 80% 10%, rgba(155, 123, 255, 0.16), transparent 60%),
+    var(--aboutBg);
+  color: var(--aboutText);
+}
+
+.aboutContainer {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.aboutHeader {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid var(--aboutBorder);
+}
+
+@media (prefers-color-scheme: light) {
+  .aboutHeader {
+    background: rgba(255, 255, 255, 0.72);
+  }
+}
+
+.aboutHeaderInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  gap: 16px;
+}
+
+.aboutBrand {
+  color: var(--aboutText);
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.aboutNav {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.aboutNav a {
+  color: var(--aboutMuted);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.aboutNav a:hover {
+  color: var(--aboutText);
+}
+
+.aboutBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--aboutBorder);
+  color: var(--aboutText);
+  text-decoration: none;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.aboutBtn:hover {
+  border-color: rgba(106, 166, 255, 0.6);
+}
+
+.aboutMain {
+  padding: 36px 0 60px;
+}
+
+.aboutHero {
+  padding: 20px 0 10px;
+}
+
+.aboutHeroInner {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.aboutKicker {
+  font-size: 14px;
+  color: var(--aboutMuted);
+  margin-bottom: 10px;
+}
+
+.aboutTitle {
+  margin: 0;
+  font-size: 56px;
+  line-height: 1.05;
+  letter-spacing: -0.6px;
+}
+
+.aboutSubTitle {
+  margin: 14px 0 0;
+  font-size: 16px;
+  color: var(--aboutMuted);
+}
+
+.aboutActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.aboutBtnPrimary,
+.aboutBtnGhost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.aboutBtnPrimary {
+  color: #0b0c10;
+  background: linear-gradient(135deg, var(--aboutPrimary), var(--aboutPrimary2));
+  border: 0;
+}
+
+@media (prefers-color-scheme: light) {
+  .aboutBtnPrimary {
+    color: #ffffff;
+  }
+}
+
+.aboutBtnGhost {
+  color: var(--aboutText);
+  border: 1px solid var(--aboutBorder);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.aboutSection {
+  padding: 34px 0 0;
+}
+
+.aboutSectionTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 14px;
+}
+
+.aboutCard {
+  background: var(--aboutCard);
+  border: 1px solid var(--aboutBorder);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: var(--aboutShadow);
+}
+
+.aboutHeroCard {
+  position: sticky;
+  top: 84px;
+}
+
+.aboutCardTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--aboutMuted);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.aboutCardHeading {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.aboutCardDesc {
+  color: var(--aboutMuted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.aboutGrid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.aboutGrid2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.aboutStack {
+  display: grid;
+  gap: 14px;
+}
+
+.aboutRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.aboutMuted {
+  color: var(--aboutMuted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.aboutList {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  color: var(--aboutMuted);
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+.aboutTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.aboutTag {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--aboutBorder);
+  color: var(--aboutMuted);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.aboutPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.aboutPill {
+  font-size: 13px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--aboutBorder);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--aboutText);
+}
+
+.aboutContactGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.aboutContactLabel {
+  font-size: 12px;
+  color: var(--aboutMuted);
+  margin-bottom: 6px;
+}
+
+.aboutContactValue {
+  font-size: 14px;
+}
+
+.aboutLink {
+  color: var(--aboutPrimary);
+  text-decoration: none;
+}
+
+.aboutLink:hover {
+  text-decoration: underline;
+}
+
+.aboutFooter {
+  margin-top: 14px;
+  color: var(--aboutMuted);
+  font-size: 12px;
+  text-align: center;
+}
+
+@media (max-width: 980px) {
+  .aboutHeroInner {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutHeroCard {
+    position: static;
+  }
+
+  .aboutGrid3 {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutGrid2 {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutContactGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutTitle {
+    font-size: 44px;
+  }
+
+  .aboutNav {
+    display: none;
+  }
+}

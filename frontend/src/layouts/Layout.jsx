@@ -20,11 +20,15 @@ export default function Layout() {
     setMobileMenuOpen(false);
   };
 
+  // 检测是否为 admin 域名
+  const isAdminDomain = window.location.hostname === "admin.lige.website";
+  
   const navLinks = (
     <>
       <Link to="/contracts" onClick={() => setMobileMenuOpen(false)}>合同</Link>
       {isSuperAdmin && <Link to="/users" onClick={() => setMobileMenuOpen(false)}>用户管理</Link>}
       {isSuperAdmin && <Link to="/operations" onClick={() => setMobileMenuOpen(false)}>操作日志</Link>}
+      {!isAdminDomain && <Link to="/about" onClick={() => setMobileMenuOpen(false)}>关于我</Link>}
     </>
   );
 
