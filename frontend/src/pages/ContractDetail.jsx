@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Card, Descriptions, Button, Space, message, Modal, Input, Timeline } from "antd";
-import { EditOutlined, DownloadOutlined, SendOutlined, CheckOutlined, CloseOutlined, LeftOutlined } from "@ant-design/icons";
+import { EditOutlined, DownloadOutlined, SendOutlined, CheckOutlined, CloseOutlined, LeftOutlined, FilePdfOutlined } from "@ant-design/icons";
 import { useAuth } from "../stores/auth";
 import {
   getContract,
@@ -13,6 +13,7 @@ import {
   rejectFinance,
   approveAdmin,
   rejectAdmin,
+  exportContractPdf,
 } from "../api/contracts";
 import client from "../api/client";
 import dayjs from "dayjs";
@@ -81,6 +82,25 @@ export default function ContractDetail() {
   const canFinanceApprove = (user?.role === "finance" || user?.role === "super_admin") && contract?.status === "pending_finance";
   const canWithdrawByFinance = (user?.role === "finance" || user?.role === "super_admin") && contract?.status === "finance_approved";
   const canAdminApprove = user?.role === "super_admin" && contract?.status === "finance_approved";
+
+  const handleExportPdf = () => {
+    exportContractPdf(id)
+      .then((res) => {
+        const blob = res.data instanceof Blob ? res.data : new Blob([res.data]);
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `合同_${contract?.contract_no || id}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(a.href);
+        message.success("已导出 PDF");
+      })
+      .catch((e) => {
+        const msg = e.response?.data instanceof Blob ? "无权限或导出失败" : (e.response?.data?.detail || "导出失败");
+        message.error(msg);
+      });
+  };
 
   const refresh = () => {
     getContract(id).then(({ data }) => setContract(data));
@@ -177,6 +197,7 @@ export default function ContractDetail() {
       extra={
         <Space wrap size="small" className="contract-detail-actions">
           <Button icon={<LeftOutlined />} onClick={() => navigate(-1)}>返回</Button>
+          <Button icon={<FilePdfOutlined />} onClick={handleExportPdf}>导出 PDF</Button>
           {canEdit && (
             <Button type="primary" icon={<EditOutlined />} onClick={() => navigate(`/contracts/${id}/edit`)}>
               编辑

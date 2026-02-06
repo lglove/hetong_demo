@@ -24,12 +24,24 @@ export default function ContractForm() {
   const [loading, setLoading] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(isEdit);
   const [fileList, setFileList] = useState([]);
+  const [loadedData, setLoadedData] = useState(null);
+  const [amountDisplay, setAmountDisplay] = useState(null);
   
   // 监听金额字段变化，用于实时显示中文大写金额
-  const amount = Form.useWatch("amount", form);
+  const amountFromForm = Form.useWatch("amount", form);
+  // 使用本地状态或表单值，确保联动实时更新
+  const amount = amountDisplay !== null ? amountDisplay : amountFromForm;
 
   useEffect(() => {
-    if (!isEdit) return;
+    if (!isEdit) {
+      setLoadedData(null);
+      setLoadingDetail(false);
+      setAmountDisplay(null);
+      return;
+    }
+    setLoadingDetail(true);
+    setLoadedData(null);
+    setAmountDisplay(null);
     getContract(id)
       .then(({ data }) => {
         const rawAmount = data.amount;
@@ -49,15 +61,15 @@ export default function ContractForm() {
           status: data.status,
           note: data.note,
         };
+        setLoadedData(values);
+        setAmountDisplay(amountNum);
         setLoadingDetail(false);
-        // 下一帧再设表单项，确保表单已解除 disabled 后金额输入框能正确显示
-        setTimeout(() => {
-          form.setFieldsValue(values);
-        }, 0);
       })
-      .catch(() => message.error("加载失败"))
-      .finally(() => setLoadingDetail(false));
-  }, [id, isEdit, form]);
+      .catch(() => {
+        message.error("加载失败");
+        setLoadingDetail(false);
+      });
+  }, [id, isEdit]);
 
   const onFinish = async (values) => {
     setLoading(true);
@@ -123,13 +135,19 @@ export default function ContractForm() {
     }
   };
 
+  // 编辑模式下，如果还在加载数据，显示加载状态
+  if (isEdit && loadingDetail && !loadedData) {
+    return <Card title="编辑合同" loading>加载中...</Card>;
+  }
+
   return (
     <Card title={isEdit ? "编辑合同" : "新建合同"}>
       <Form
         form={form}
         layout="vertical"
         onFinish={onFinish}
-        initialValues={{ status: "draft" }}
+        initialValues={loadedData || { status: "draft" }}
+        key={id || "new"}
         disabled={loadingDetail}
       >
         <Form.Item name="title" label="合同名称" rules={[{ required: true }]}>
@@ -145,7 +163,15 @@ export default function ContractForm() {
           <Input />
         </Form.Item>
         <Form.Item name="amount" label="金额" rules={[{ required: true }]}>
-          <InputNumber min={0} step={0.01} style={{ width: "100%" }} />
+          <InputNumber
+            min={0}
+            step={0.01}
+            style={{ width: "100%" }}
+            onChange={(value) => {
+              // 确保金额变化时立即更新显示状态，保持大小写联动
+              setAmountDisplay(value);
+            }}
+          />
           {amount != null && amount !== "" && !isNaN(Number(amount)) && (
             <div style={{ marginTop: 8, color: "#666", fontSize: "14px" }}>
               大写：{toChineseAmount(amount)}

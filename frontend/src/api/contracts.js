@@ -52,6 +52,10 @@ export function getContractOperations(contractId) {
   return client.get(`/contracts/${contractId}/operations`);
 }
 
+export function exportContractPdf(contractId) {
+  return client.get(`/contracts/${contractId}/pdf`, { responseType: "blob" });
+}
+
 export function uploadAttachment(contractId, file) {
   const form = new FormData();
   form.append("file", file);

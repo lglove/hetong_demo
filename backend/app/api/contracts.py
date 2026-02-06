@@ -1,6 +1,8 @@
+from urllib.parse import quote
 from uuid import UUID
 from datetime import date
 from fastapi import APIRouter, Depends, Query
+from fastapi.responses import Response
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.user import User
@@ -15,6 +17,7 @@ from app.schemas.attachment import AttachmentResponse
 from app.schemas.operation_log import ApproveRejectRequest, OperationLogResponse
 from app.services.auth import get_current_user
 from app.services.contract import ContractService
+from app.services.pdf import build_contract_pdf
 
 router = APIRouter(prefix="/contracts", tags=["contracts"])
 
@@ -79,6 +82,26 @@ def list_contracts(
             for c in items
         ],
     }
+
+
+@router.get("/{contract_id}/pdf")
+def export_contract_pdf(
+    contract_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """导出合同为 PDF。"""
+    contract = ContractService.get_contract(db, contract_id, current_user)
+    pdf_bytes = build_contract_pdf(contract)
+    filename = f"合同_{contract.contract_no}.pdf"
+    encoded_filename = quote(filename)
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f"attachment; filename*=UTF-8''{encoded_filename}",
+        },
+    )
 
 
 @router.get("/{contract_id}", response_model=ContractResponse)
