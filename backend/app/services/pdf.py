@@ -92,22 +92,27 @@ def build_contract_pdf(contract) -> bytes:
     """
     # 注册中文字体
     try:
-        # 尝试使用系统中文字体
-        pdfmetrics.registerFont(TTFont('SimSun', '/System/Library/Fonts/STHeiti Medium.ttc'))
+        # 尝试使用 Docker 容器中的中文字体
+        pdfmetrics.registerFont(TTFont('SimSun', '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc'))
         chinese_font = 'SimSun'
     except:
         try:
-            # macOS 备选字体
-            pdfmetrics.registerFont(TTFont('SimSun', '/System/Library/Fonts/PingFang.ttc'))
+            # 备选字体路径
+            pdfmetrics.registerFont(TTFont('SimSun', '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'))
             chinese_font = 'SimSun'
         except:
             try:
-                # Linux 备选字体
-                pdfmetrics.registerFont(TTFont('SimSun', '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc'))
+                # macOS 本地开发环境
+                pdfmetrics.registerFont(TTFont('SimSun', '/System/Library/Fonts/STHeiti Medium.ttc'))
                 chinese_font = 'SimSun'
             except:
-                # 如果都找不到，使用 Helvetica（会乱码，但不会报错）
-                chinese_font = 'Helvetica'
+                try:
+                    # macOS 备选字体
+                    pdfmetrics.registerFont(TTFont('SimSun', '/System/Library/Fonts/PingFang.ttc'))
+                    chinese_font = 'SimSun'
+                except:
+                    # 如果都找不到，使用 Helvetica（会乱码，但不会报错）
+                    chinese_font = 'Helvetica'
 
     buffer = BytesIO()
     doc = SimpleDocTemplate(

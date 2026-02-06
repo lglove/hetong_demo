@@ -4,6 +4,8 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc libpq-dev \
+    fontconfig fonts-wqy-microhei fonts-wqy-zenhei \
+    && fc-cache -fv \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
