@@ -287,7 +287,7 @@ class ContractService:
             .order_by(ContractOperationLog.created_at.asc())
             .all()
         )
-        return logs
+        return contract, logs
 
     @staticmethod
     def list_operation_logs_global(
@@ -304,7 +304,12 @@ class ContractService:
             q = q.filter(ContractOperationLog.contract_id == contract_id)
         if user_id is not None:
             q = q.filter(ContractOperationLog.user_id == user_id)
-        total = q.count()
+        base_filter = db.query(ContractOperationLog).join(Contract, ContractOperationLog.contract_id == Contract.id)
+        if contract_id is not None:
+            base_filter = base_filter.filter(ContractOperationLog.contract_id == contract_id)
+        if user_id is not None:
+            base_filter = base_filter.filter(ContractOperationLog.user_id == user_id)
+        total = base_filter.count()
         rows = q.order_by(ContractOperationLog.created_at.desc()).offset(skip).limit(limit).all()
         # 返回 (log, contract_no) 列表，供 API 层组装
         items = [(row[0], row[1]) for row in rows]

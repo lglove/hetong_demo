@@ -32,12 +32,13 @@ export default function ContractForm() {
     if (!isEdit) return;
     getContract(id)
       .then(({ data }) => {
+        const amountNum = data.amount != null && data.amount !== "" ? Number(data.amount) : undefined;
         form.setFieldsValue({
           title: data.title,
           contract_no: data.contract_no,
           party_a: data.party_a,
           party_b: data.party_b,
-          amount: data.amount,
+          amount: amountNum,
           sign_date: data.sign_date ? dayjs(data.sign_date) : null,
           expire_date: data.expire_date ? dayjs(data.expire_date) : null,
           status: data.status,
@@ -135,7 +136,7 @@ export default function ContractForm() {
         </Form.Item>
         <Form.Item name="amount" label="金额" rules={[{ required: true }]}>
           <InputNumber min={0} step={0.01} style={{ width: "100%" }} />
-          {amount != null && amount !== "" && (
+          {amount != null && amount !== "" && !isNaN(Number(amount)) && (
             <div style={{ marginTop: 8, color: "#666", fontSize: "14px" }}>
               大写：{toChineseAmount(amount)}
             </div>

@@ -27,16 +27,16 @@ def list_operations_global(
         "total": total,
         "items": [
             {
-                "id": log.id,
-                "contract_id": log.contract_id,
-                "contract_no": contract_no or "",
-                "user_id": log.user_id,
-                "username": log.user.username if log.user else "",
+                "id": str(log.id),
+                "contract_id": str(log.contract_id),
+                "contract_no": str(contract_no) if contract_no else "",
+                "user_id": str(log.user_id),
+                "username": (log.user.username if log.user else "") or "",
                 "action": log.action,
                 "from_status": log.from_status,
                 "to_status": log.to_status,
-                "remark": log.remark,
-                "created_at": log.created_at,
+                "remark": log.remark or "",
+                "created_at": log.created_at.isoformat() if hasattr(log.created_at, "isoformat") else log.created_at,
             }
             for log, contract_no in items
         ],

@@ -203,11 +203,13 @@ def list_contract_operations(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    logs = ContractService.list_operation_logs_for_contract(db, contract_id, current_user)
+    contract, logs = ContractService.list_operation_logs_for_contract(db, contract_id, current_user)
+    contract_no = contract.contract_no if contract else ""
     return [
         OperationLogResponse(
             id=log.id,
             contract_id=log.contract_id,
+            contract_no=contract_no,
             user_id=log.user_id,
             username=log.user.username if log.user else "",
             action=log.action,

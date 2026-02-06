@@ -10,6 +10,7 @@ class ApproveRejectRequest(BaseModel):
 class OperationLogResponse(BaseModel):
     id: UUID
     contract_id: UUID
+    contract_no: str = ""
     user_id: UUID
     username: str = ""
     action: str
