@@ -42,6 +42,7 @@ class ContractResponse(BaseModel):
     status: ContractStatus
     note: str | None
     created_by: UUID
+    created_by_username: str = ""
     created_at: datetime
     updated_at: datetime
     attachments: list[AttachmentResponse] = []
@@ -58,6 +59,7 @@ class ContractListResponse(BaseModel):
     party_b: str
     amount: Decimal
     status: ContractStatus
+    created_by_username: str = ""
     created_at: datetime
 
     class Config:

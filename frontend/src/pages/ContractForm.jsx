@@ -32,8 +32,13 @@ export default function ContractForm() {
     if (!isEdit) return;
     getContract(id)
       .then(({ data }) => {
-        const amountNum = data.amount != null && data.amount !== "" ? Number(data.amount) : undefined;
-        form.setFieldsValue({
+        const rawAmount = data.amount;
+        let amountNum =
+          rawAmount != null && rawAmount !== ""
+            ? (typeof rawAmount === "number" ? rawAmount : parseFloat(String(rawAmount)))
+            : undefined;
+        if (amountNum != null && isNaN(amountNum)) amountNum = undefined;
+        const values = {
           title: data.title,
           contract_no: data.contract_no,
           party_a: data.party_a,
@@ -43,7 +48,12 @@ export default function ContractForm() {
           expire_date: data.expire_date ? dayjs(data.expire_date) : null,
           status: data.status,
           note: data.note,
-        });
+        };
+        setLoadingDetail(false);
+        // 下一帧再设表单项，确保表单已解除 disabled 后金额输入框能正确显示
+        setTimeout(() => {
+          form.setFieldsValue(values);
+        }, 0);
       })
       .catch(() => message.error("加载失败"))
       .finally(() => setLoadingDetail(false));

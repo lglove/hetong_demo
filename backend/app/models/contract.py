@@ -36,5 +36,6 @@ class Contract(Base):
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+    creator = relationship("User", foreign_keys=[created_by])
     attachments = relationship("ContractAttachment", back_populates="contract", cascade="all, delete-orphan")
     operation_logs = relationship("ContractOperationLog", back_populates="contract", cascade="all, delete-orphan")

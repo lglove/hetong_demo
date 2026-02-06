@@ -76,6 +76,7 @@ export default function ContractList() {
     { title: "合同名称", dataIndex: "title", key: "title", ellipsis: true },
     { title: "甲方", dataIndex: "party_a", key: "party_a", ellipsis: true },
     { title: "乙方", dataIndex: "party_b", key: "party_b", ellipsis: true },
+    { title: "创建人", dataIndex: "created_by_username", key: "created_by_username", width: 100, ellipsis: true },
     {
       title: "金额",
       dataIndex: "amount",

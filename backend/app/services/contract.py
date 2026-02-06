@@ -68,7 +68,7 @@ class ContractService:
         sign_date_from: date | None = None,
         sign_date_to: date | None = None,
     ):
-        q = db.query(Contract)
+        q = db.query(Contract).options(joinedload(Contract.creator))
         f = ContractService._list_filter(user)
         if f is not None:
             q = q.filter(f)
@@ -93,7 +93,12 @@ class ContractService:
 
     @staticmethod
     def get_contract(db: Session, contract_id: UUID, user: User) -> Contract:
-        contract = db.query(Contract).filter(Contract.id == contract_id).first()
+        contract = (
+            db.query(Contract)
+            .options(joinedload(Contract.creator))
+            .filter(Contract.id == contract_id)
+            .first()
+        )
         if not contract:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,

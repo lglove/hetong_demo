@@ -32,6 +32,7 @@ def _contract_to_response(c) -> ContractResponse:
         status=c.status,
         note=c.note,
         created_by=str(c.created_by),
+        created_by_username=c.creator.username if c.creator else "",
         created_at=c.created_at,
         updated_at=c.updated_at,
         attachments=[
@@ -50,7 +51,7 @@ def _contract_to_response(c) -> ContractResponse:
 @router.get("", response_model=dict)
 def list_contracts(
     skip: int = Query(0, ge=0),
-    limit: int = Query(20, ge=1, le=500),
+    limit: int = Query(20, ge=1, le=100),
     keyword: str | None = None,
     status_filter: ContractStatus | None = None,
     sign_date_from: date | None = None,
@@ -72,6 +73,7 @@ def list_contracts(
                 party_b=c.party_b,
                 amount=c.amount,
                 status=c.status,
+                created_by_username=c.creator.username if c.creator else "",
                 created_at=c.created_at,
             )
             for c in items

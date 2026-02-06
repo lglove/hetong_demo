@@ -55,7 +55,7 @@ export default function Operations() {
 
   useEffect(() => {
     if (user?.role !== "super_admin") return;
-    listContracts({ limit: 500 }).then((r) => setContracts(r.data.items || []));
+    listContracts({ limit: 100 }).then((r) => setContracts(r.data.items || []));
     listUsers().then((r) => setUsers(r.data || []));
   }, [user?.role]);
 

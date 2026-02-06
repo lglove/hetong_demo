@@ -236,6 +236,7 @@ export default function ContractDetail() {
         <Descriptions.Item label="签订日期">{contract.sign_date || "-"}</Descriptions.Item>
         <Descriptions.Item label="到期日">{contract.expire_date || "-"}</Descriptions.Item>
         <Descriptions.Item label="状态">{statusMap[contract.status] ?? contract.status}</Descriptions.Item>
+        <Descriptions.Item label="创建人">{contract.created_by_username || "-"}</Descriptions.Item>
         <Descriptions.Item label="备注">{contract.note || "-"}</Descriptions.Item>
       </Descriptions>
       {contract.attachments?.length > 0 && (
