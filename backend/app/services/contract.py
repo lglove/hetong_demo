@@ -295,14 +295,17 @@ class ContractService:
     ):
         if user.role != UserRole.super_admin:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="仅超级管理员可查看全局操作日志")
-        q = db.query(ContractOperationLog).options(
-            joinedload(ContractOperationLog.user),
-            joinedload(ContractOperationLog.contract),
+        q = (
+            db.query(ContractOperationLog, Contract.contract_no)
+            .join(Contract, ContractOperationLog.contract_id == Contract.id)
+            .options(joinedload(ContractOperationLog.user))
         )
         if contract_id is not None:
             q = q.filter(ContractOperationLog.contract_id == contract_id)
         if user_id is not None:
             q = q.filter(ContractOperationLog.user_id == user_id)
         total = q.count()
-        items = q.order_by(ContractOperationLog.created_at.desc()).offset(skip).limit(limit).all()
+        rows = q.order_by(ContractOperationLog.created_at.desc()).offset(skip).limit(limit).all()
+        # 返回 (log, contract_no) 列表，供 API 层组装
+        items = [(row[0], row[1]) for row in rows]
         return total, items

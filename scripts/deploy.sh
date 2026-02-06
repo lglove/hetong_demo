@@ -14,11 +14,11 @@ echo ""
 
 # 检查 SSL 证书文件
 echo "📋 检查 SSL 证书..."
-if [ ! -f "ssl/full_chain.pem" ] || [ ! -f "ssl/private.key" ]; then
+if [ ! -f "/root/ssl/full_chain.pem" ] || [ ! -f "/root/ssl/private.key" ]; then
     echo "❌ 错误：SSL 证书文件不存在！"
     echo "   请确保以下文件存在："
-    echo "   - ssl/full_chain.pem"
-    echo "   - ssl/private.key"
+    echo "   - /root/ssl/full_chain.pem"
+    echo "   - /root/ssl/private.key"
     exit 1
 fi
 echo "✅ SSL 证书文件检查通过"

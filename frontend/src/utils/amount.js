@@ -16,68 +16,53 @@ export function toChineseAmount(amount) {
   const digits = ["零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"];
   const units = ["", "拾", "佰", "仟"];
 
-  // 分离整数部分和小数部分
-  const parts = num.toFixed(2).split(".");
-  const integerPart = parts[0];
-  const decimalPart = parts[1] || "00";
+  // 整数部分用 Math.floor 避免浮点误差；小数部分固定两位
+  const intNum = Math.floor(num);
+  const integerPart = String(intNum);
+  const decimalPart = (num.toFixed(2).split(".")[1] || "00").slice(0, 2);
 
-  // 转换整数部分（支持到亿）
-  function convertIntegerPart(str) {
-    if (str === "0") return "零";
-    
-    const len = str.length;
-    let result = "";
-    
-    // 处理亿位
-    if (len > 8) {
-      const yiPart = str.slice(0, len - 8);
-      result += convertFourDigits(yiPart) + "亿";
-      str = str.slice(len - 8);
-    }
-    
-    // 处理万位
-    if (str.length > 4) {
-      const wanPart = str.slice(0, str.length - 4);
-      const wanStr = convertFourDigits(wanPart);
-      if (wanStr && wanStr !== "零") {
-        result += wanStr + "万";
-      }
-      str = str.slice(str.length - 4);
-    }
-    
-    // 处理个位到千位
-    const geStr = convertFourDigits(str);
-    if (geStr && geStr !== "零") {
-      result += geStr;
-    }
-    
-    // 清理多余的零
-    result = result.replace(/零+/g, "零").replace(/零$/, "");
-    
-    return result || "零";
-  }
-
-  // 转换四位数字（个、十、百、千）
+  // 转换四位数字（个、十、百、千），str 为不超过 4 位的数字串
   function convertFourDigits(str) {
+    if (!str || str === "0") return "零";
     const len = str.length;
     let result = "";
-    
     for (let i = 0; i < len; i++) {
-      const digit = parseInt(str[i]);
-      const pos = len - i - 1;
-      
-      if (digit !== 0) {
-        // 处理"壹拾"的情况，通常简化为"拾"
-        if (digit === 1 && pos === 1 && i === 0) {
+      const d = parseInt(str[i], 10);
+      const pos = len - 1 - i; // 0=个位, 1=十, 2=百, 3=千
+      if (d !== 0) {
+        if (d === 1 && pos === 1 && i === 0) {
           result += "拾";
         } else {
-          result += digits[digit] + units[pos];
+          result += digits[d] + units[pos];
         }
-      } else if (result && result[result.length - 1] !== "零") {
+      } else if (result.length > 0 && result[result.length - 1] !== "零") {
         result += "零";
       }
     }
-    
+    return result || "零";
+  }
+
+  // 转换整数部分：按段拆分（亿、万、个），每段最多 4 位
+  function convertIntegerPart(str) {
+    if (!str || str === "0") return "零";
+    let s = str;
+    let result = "";
+    // 亿位（从左起，取到倒数第 8 位之前）
+    if (s.length > 8) {
+      result += convertFourDigits(s.slice(0, s.length - 8)) + "亿";
+      s = s.slice(s.length - 8);
+    }
+    // 万位（取到倒数第 4 位之前）
+    if (s.length > 4) {
+      const wanPart = s.slice(0, s.length - 4);
+      const wanStr = convertFourDigits(wanPart);
+      if (wanStr !== "零") result += wanStr + "万";
+      s = s.slice(s.length - 4);
+    }
+    // 个位到千位
+    const geStr = convertFourDigits(s);
+    if (geStr !== "零") result += geStr;
+    result = result.replace(/零+/g, "零").replace(/零$/, "");
     return result || "零";
   }
 

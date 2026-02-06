@@ -44,7 +44,10 @@ export default function Operations() {
 
   const fetchOps = () => {
     setLoading(true);
-    listOperations({ skip: 0, limit: 100, contract_id: contractId, user_id: userId })
+    const params = { skip: 0, limit: 100 };
+    if (contractId != null && contractId !== "") params.contract_id = contractId;
+    if (userId != null && userId !== "") params.user_id = userId;
+    listOperations(params)
       .then(({ data }) => setData({ total: data.total, items: data.items }))
       .catch((e) => message.error(e.response?.data?.detail || "加载失败"))
       .finally(() => setLoading(false));
@@ -64,7 +67,7 @@ export default function Operations() {
     { title: "时间", dataIndex: "created_at", key: "created_at", width: 170, render: (t) => dayjs(t).format("YYYY-MM-DD HH:mm:ss") },
     { title: "操作人", dataIndex: "username", key: "username", width: 120 },
     { title: "操作", dataIndex: "action", key: "action", width: 140, render: (a) => actionMap[a] ?? a },
-    { title: "合同编号", dataIndex: "contract_no", key: "contract_no", width: 160, ellipsis: true },
+    { title: "合同编号", dataIndex: "contract_no", key: "contract_no", width: 160, ellipsis: true, render: (v) => v ?? "-" },
     { title: "状态变更", key: "status", render: (_, r) => (r.from_status || r.to_status ? `${formatStatus(r.from_status)} → ${formatStatus(r.to_status)}` : "-") },
     { title: "备注", dataIndex: "remark", key: "remark", ellipsis: true },
   ];

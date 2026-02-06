@@ -50,7 +50,7 @@ def _contract_to_response(c) -> ContractResponse:
 @router.get("", response_model=dict)
 def list_contracts(
     skip: int = Query(0, ge=0),
-    limit: int = Query(20, ge=1, le=100),
+    limit: int = Query(20, ge=1, le=500),
     keyword: str | None = None,
     status_filter: ContractStatus | None = None,
     sign_date_from: date | None = None,
