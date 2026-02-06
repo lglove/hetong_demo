@@ -65,7 +65,7 @@ export default function Layout() {
             onClick={() => setMobileMenuOpen(true)}
             aria-label="菜单"
           />
-          <div className="app-brand">合同管理系统</div>
+          <Link to="/contracts" className="app-brand">合同管理系统</Link>
           <nav className="app-nav">{navLinks}</nav>
           <div className="app-user">
             <span className="app-username">{user?.username}</span>
