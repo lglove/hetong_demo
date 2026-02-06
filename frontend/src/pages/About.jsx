@@ -11,6 +11,24 @@ export default function About() {
       name: "李戈",
       title: "技术经理 / Python 后端",
       meta: "10年工作经验｜期望城市：西安｜期望薪资：20-30K",
+      description: "专注于构建稳定、高效的后端系统\n用代码创造价值，用架构驱动业务",
+      stats: [
+        { label: "年工作经验", value: "10+", icon: "💼" },
+        { label: "技术项目", value: "50+", icon: "🚀" },
+        { label: "团队管理", value: "5+", icon: "👥" },
+        { label: "系统架构", value: "20+", icon: "🏗️" },
+      ],
+      about: {
+        title: "关于我",
+        subtitle: "技术架构的实践者",
+        description: "大家好！我是李戈，一位热爱技术、专注架构的后端工程师。在技术领域深耕10年，我始终相信代码的力量可以改变世界。",
+        content: "我的技术理念很简单：稳定第一！通过微服务架构、容器化部署和可观测性建设，我帮助团队构建了多个高可用、高性能的系统。\n\n作为技术管理的实践者，我主导了多个大型项目的架构设计，推动了团队的容器化改造，建立了完善的开发流程体系。我的使命是：用技术驱动业务，用架构保障稳定！",
+        concepts: [
+          { icon: "🎯", text: "技术理念", desc: "稳定第一，架构驱动，持续优化" },
+          { icon: "💡", text: "核心能力", desc: "微服务架构、系统设计、团队管理" },
+          { icon: "🔧", text: "工程实践", desc: "CI/CD、监控体系、规范流程" },
+        ],
+      },
       contact: {
         phone: "18710846413",
         email: "1065463775@qq.com",
@@ -103,9 +121,10 @@ export default function About() {
         <section className="aboutHero">
           <div className="aboutContainer">
             <div className="aboutHeroContent">
+              <div className="aboutHeroEmoji">💻 🚀 ⚡</div>
               <div className="aboutKicker">{data.title}</div>
               <h1 className="aboutTitle">{data.name}</h1>
-              <p className="aboutSubTitle">{data.meta}</p>
+              <p className="aboutSubTitle">{data.description}</p>
               <div className="aboutActions">
                 <a className="aboutBtnPrimary" href="#contact">
                   联系我
@@ -113,6 +132,37 @@ export default function About() {
                 <a className="aboutBtnGhost" href="#projects">
                   查看作品
                 </a>
+              </div>
+            </div>
+            <div className="aboutStats">
+              {data.stats.map((stat) => (
+                <div className="aboutStatCard" key={stat.label}>
+                  <div className="aboutStatIcon">{stat.icon}</div>
+                  <div className="aboutStatValue">{stat.value}</div>
+                  <div className="aboutStatLabel">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="aboutSection aboutIntro">
+          <div className="aboutContainer">
+            <h2 className="aboutSectionTitle">{data.about.title}</h2>
+            <div className="aboutIntroContent">
+              <div className="aboutIntroMain">
+                <div className="aboutIntroSubtitle">{data.about.subtitle}</div>
+                <p className="aboutIntroDesc">{data.about.description}</p>
+                <p className="aboutIntroContentText">{data.about.content}</p>
+              </div>
+              <div className="aboutIntroConcepts">
+                {data.about.concepts.map((c) => (
+                  <div className="aboutConceptCard" key={c.text}>
+                    <div className="aboutConceptIcon">{c.icon}</div>
+                    <div className="aboutConceptTitle">{c.text}</div>
+                    <div className="aboutConceptDesc">{c.desc}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -207,28 +257,41 @@ export default function About() {
           </div>
         </section>
 
-        <section id="contact" className="aboutSection">
+        <section id="contact" className="aboutSection aboutContactSection">
           <div className="aboutContainer">
-            <h2 className="aboutSectionTitle">取得联系</h2>
-            <p className="aboutContactSubtitle">对合作感兴趣？让我们一起创造些什么</p>
-            <div className="aboutContactInfo">
-              <div className="aboutContactItem">
-                <a className="aboutContactLink" href={`mailto:${data.contact.email}`}>
-                  {data.contact.email}
-                </a>
-              </div>
-              <div className="aboutContactItem">
-                <a className="aboutContactLink" href={`tel:${data.contact.phone}`}>
+            <h2 className="aboutSectionTitle">🚀 一起创造技术的未来</h2>
+            <p className="aboutContactSubtitle">
+              如果您对技术架构充满热情，想要探索更高效的解决方案，
+              <br />
+              欢迎与我联系，让我们一起为产品创造更稳定的技术基础！
+            </p>
+            <div className="aboutContactGrid">
+              <div className="aboutContactCard">
+                <div className="aboutContactIcon">📱</div>
+                <div className="aboutContactCardTitle">联系电话</div>
+                <a className="aboutContactCardValue" href={`tel:${data.contact.phone}`}>
                   {data.contact.phone}
                 </a>
+                <div className="aboutContactCardNote">工作日 9:00-18:00</div>
               </div>
-              <div className="aboutContactItem">
-                <span className="aboutContactText">西安 · 中国</span>
+              <div className="aboutContactCard">
+                <div className="aboutContactIcon">✉️</div>
+                <div className="aboutContactCardTitle">电子邮箱</div>
+                <a className="aboutContactCardValue" href={`mailto:${data.contact.email}`}>
+                  {data.contact.email}
+                </a>
+                <div className="aboutContactCardNote">24小时内回复</div>
+              </div>
+              <div className="aboutContactCard">
+                <div className="aboutContactIcon">📍</div>
+                <div className="aboutContactCardTitle">所在城市</div>
+                <div className="aboutContactCardValue">西安 · 中国</div>
+                <div className="aboutContactCardNote">期望工作地点</div>
               </div>
             </div>
-            <div className="aboutContactLinks">
-              <a className="aboutContactLink" href={data.resumePdfUrl} target="_blank" rel="noreferrer">
-                简历 PDF
+            <div className="aboutContactAction">
+              <a className="aboutBtnPrimary" href={`mailto:${data.contact.email}`}>
+                开始对话
               </a>
             </div>
             <footer className="aboutFooter">
