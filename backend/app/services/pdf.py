@@ -92,23 +92,23 @@ def build_contract_pdf(contract) -> bytes:
     """
     # 注册中文字体
     try:
-        # 尝试使用 Docker 容器中的中文字体
-        pdfmetrics.registerFont(TTFont('SimSun', '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc'))
+        # 尝试使用 Docker 容器中的中文字体 - 指定子字体索引
+        pdfmetrics.registerFont(TTFont('SimSun', '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc', subfontIndex=0))
         chinese_font = 'SimSun'
     except:
         try:
             # 备选字体路径
-            pdfmetrics.registerFont(TTFont('SimSun', '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'))
+            pdfmetrics.registerFont(TTFont('SimSun', '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc', subfontIndex=0))
             chinese_font = 'SimSun'
         except:
             try:
                 # macOS 本地开发环境
-                pdfmetrics.registerFont(TTFont('SimSun', '/System/Library/Fonts/STHeiti Medium.ttc'))
+                pdfmetrics.registerFont(TTFont('SimSun', '/System/Library/Fonts/STHeiti Medium.ttc', subfontIndex=0))
                 chinese_font = 'SimSun'
             except:
                 try:
                     # macOS 备选字体
-                    pdfmetrics.registerFont(TTFont('SimSun', '/System/Library/Fonts/PingFang.ttc'))
+                    pdfmetrics.registerFont(TTFont('SimSun', '/System/Library/Fonts/PingFang.ttc', subfontIndex=0))
                     chinese_font = 'SimSun'
                 except:
                     # 如果都找不到，使用 Helvetica（会乱码，但不会报错）

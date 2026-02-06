@@ -3,7 +3,7 @@ import "./About.css";
 
 export default function About() {
   useEffect(() => {
-    document.title = "李戈｜个人主页";
+    document.title = "李戈的个人网站";
   }, []);
 
   const data = useMemo(

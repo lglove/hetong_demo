@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { Button, Modal, Form, Input, message, Drawer } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
@@ -13,6 +13,10 @@ export default function Layout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [pwdForm] = Form.useForm();
   const [pwdLoading, setPwdLoading] = useState(false);
+
+  useEffect(() => {
+    document.title = "个人管理系统";
+  }, []);
 
   const handleLogout = () => {
     logout();
