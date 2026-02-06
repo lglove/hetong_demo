@@ -170,7 +170,7 @@ export default function About() {
 
         <section id="projects" className="aboutSection">
           <div className="aboutContainer">
-            <h2 className="aboutSectionTitle">作品集</h2>
+            <h2 className="aboutSectionTitle">项目经验</h2>
             <div className="aboutProjectsGrid">
               {data.projects.map((p) => (
                 <div className="aboutProjectCard" key={p.name}>
