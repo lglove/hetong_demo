@@ -4,7 +4,6 @@ import { Card, Form, Input, InputNumber, Select, DatePicker, Button, Upload, mes
 import { UploadOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { getContract, createContract, updateContract, uploadAttachment } from "../api/contracts";
-import { toChineseAmount } from "../utils/amount";
 
 const statusOptions = [
   { value: "draft", label: "草稿" },
@@ -25,9 +24,6 @@ export default function ContractForm() {
   const [loadingDetail, setLoadingDetail] = useState(isEdit);
   const [fileList, setFileList] = useState([]);
   const [loadedData, setLoadedData] = useState(null);
-  
-  // 监听金额字段变化，用于实时显示中文大写金额
-  const amount = Form.useWatch("amount", form);
 
   useEffect(() => {
     if (!isEdit) {
@@ -169,14 +165,7 @@ export default function ContractForm() {
             min={0}
             step={0.01}
             style={{ width: "100%" }}
-            // 移除 onChange 中的 setFieldsValue，让 Form 自动管理值
-            // Form.useWatch 会自动监听表单值变化，触发大写金额更新
           />
-          {amount != null && amount !== "" && !isNaN(Number(amount)) && (
-            <div style={{ marginTop: 8, color: "#666", fontSize: "14px" }}>
-              大写：{toChineseAmount(amount)}
-            </div>
-          )}
         </Form.Item>
         <Form.Item name="sign_date" label="签订日期">
           <DatePicker style={{ width: "100%" }} />
