@@ -89,22 +89,20 @@ export default function About() {
             {data.name}
           </a>
           <nav className="aboutNav">
+            <a href="#top">首页</a>
             <a href="#projects">项目</a>
-            <a href="#skills">技能</a>
-            <a href="#experience">经历</a>
-            <a href="#education">教育</a>
+            <a href="#skills">专业能力</a>
+            <a href="#experience">工作经历</a>
+            <a href="#education">教育经历</a>
             <a href="#contact">联系</a>
           </nav>
-          <a className="aboutBtn" href={data.resumePdfUrl} target="_blank" rel="noreferrer">
-            查看PDF
-          </a>
         </div>
       </header>
 
       <main id="top" className="aboutMain">
         <section className="aboutHero">
-          <div className="aboutContainer aboutHeroInner">
-            <div>
+          <div className="aboutContainer">
+            <div className="aboutHeroContent">
               <div className="aboutKicker">{data.title}</div>
               <h1 className="aboutTitle">{data.name}</h1>
               <p className="aboutSubTitle">{data.meta}</p>
@@ -113,32 +111,24 @@ export default function About() {
                   联系我
                 </a>
                 <a className="aboutBtnGhost" href="#projects">
-                  查看项目
+                  查看作品
                 </a>
               </div>
-            </div>
-            <div className="aboutCard aboutHeroCard">
-              <div className="aboutCardTitle">个人优势</div>
-              <ul className="aboutList">
-                {data.highlights.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
             </div>
           </div>
         </section>
 
         <section id="projects" className="aboutSection">
           <div className="aboutContainer">
-            <div className="aboutSectionTitle">精选项目</div>
-            <div className="aboutGrid3">
+            <h2 className="aboutSectionTitle">作品集</h2>
+            <div className="aboutProjectsGrid">
               {data.projects.map((p) => (
-                <div className="aboutCard" key={p.name}>
-                  <div className="aboutCardHeading">{p.name}</div>
-                  <div className="aboutCardDesc">{p.desc}</div>
-                  <div className="aboutTags">
+                <div className="aboutProjectCard" key={p.name}>
+                  <h3 className="aboutProjectTitle">{p.name}</h3>
+                  <p className="aboutProjectDesc">{p.desc}</p>
+                  <div className="aboutProjectTags">
                     {p.tags.map((tag) => (
-                      <span className="aboutTag" key={tag}>
+                      <span className="aboutProjectTag" key={tag}>
                         {tag}
                       </span>
                     ))}
@@ -151,14 +141,14 @@ export default function About() {
 
         <section id="skills" className="aboutSection">
           <div className="aboutContainer">
-            <div className="aboutSectionTitle">技能</div>
-            <div className="aboutGrid2">
+            <h2 className="aboutSectionTitle">专业能力</h2>
+            <div className="aboutSkillsGrid">
               {data.skills.map((g) => (
-                <div className="aboutCard" key={g.group}>
-                  <div className="aboutCardHeading">{g.group}</div>
-                  <div className="aboutPills">
+                <div className="aboutSkillCard" key={g.group}>
+                  <h3 className="aboutSkillTitle">{g.group}</h3>
+                  <div className="aboutSkillItems">
                     {g.items.map((it) => (
-                      <span className="aboutPill" key={it}>
+                      <span className="aboutSkillItem" key={it}>
                         {it}
                       </span>
                     ))}
@@ -171,15 +161,15 @@ export default function About() {
 
         <section id="experience" className="aboutSection">
           <div className="aboutContainer">
-            <div className="aboutSectionTitle">工作经历</div>
-            <div className="aboutStack">
+            <h2 className="aboutSectionTitle">工作经验</h2>
+            <div className="aboutExperienceList">
               {data.experience.map((e) => (
-                <div className="aboutCard" key={e.company}>
-                  <div className="aboutRow">
-                    <div className="aboutCardHeading">{e.company}</div>
-                    <div className="aboutMuted">{e.time}</div>
+                <div className="aboutExperienceItem" key={e.company}>
+                  <div className="aboutExperienceHeader">
+                    <div className="aboutExperienceTime">{e.time}</div>
+                    <h3 className="aboutExperienceTitle">{e.company}</h3>
                   </div>
-                  <ul className="aboutList">
+                  <ul className="aboutExperienceBullets">
                     {e.bullets.map((b) => (
                       <li key={b}>{b}</li>
                     ))}
@@ -192,59 +182,58 @@ export default function About() {
 
         <section id="education" className="aboutSection">
           <div className="aboutContainer">
-            <div className="aboutSectionTitle">教育经历</div>
-            <div className="aboutGrid2">
+            <h2 className="aboutSectionTitle">教育背景</h2>
+            <div className="aboutEducationList">
               {data.education.map((ed) => (
-                <div className="aboutCard" key={ed.school}>
-                  <div className="aboutRow">
-                    <div className="aboutCardHeading">{ed.school}</div>
-                    <div className="aboutMuted">{ed.time}</div>
-                  </div>
-                  <div className="aboutCardDesc">{ed.degree}</div>
+                <div className="aboutEducationItem" key={ed.school}>
+                  <div className="aboutEducationTime">{ed.time}</div>
+                  <h3 className="aboutEducationTitle">{ed.school}</h3>
+                  <p className="aboutEducationDegree">{ed.degree}</p>
                 </div>
               ))}
-              <div className="aboutCard">
-                <div className="aboutCardHeading">资格证书</div>
-                <div className="aboutPills">
-                  {data.certificates.map((c) => (
-                    <span className="aboutPill" key={c}>
-                      {c}
-                    </span>
-                  ))}
+              {data.certificates.length > 0 && (
+                <div className="aboutEducationItem">
+                  <h3 className="aboutEducationTitle">资格证书</h3>
+                  <div className="aboutCertificates">
+                    {data.certificates.map((c) => (
+                      <span className="aboutCertificate" key={c}>
+                        {c}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </section>
 
         <section id="contact" className="aboutSection">
           <div className="aboutContainer">
-            <div className="aboutSectionTitle">联系</div>
-            <div className="aboutCard">
-              <div className="aboutContactGrid">
-                <div>
-                  <div className="aboutContactLabel">手机号</div>
-                  <div className="aboutContactValue">{data.contact.phone}</div>
-                </div>
-                <div>
-                  <div className="aboutContactLabel">邮箱</div>
-                  <div className="aboutContactValue">
-                    <a className="aboutLink" href={`mailto:${data.contact.email}`}>
-                      {data.contact.email}
-                    </a>
-                  </div>
-                </div>
-                <div>
-                  <div className="aboutContactLabel">简历PDF</div>
-                  <div className="aboutContactValue">
-                    <a className="aboutLink" href={data.resumePdfUrl} target="_blank" rel="noreferrer">
-                      打开 / 下载
-                    </a>
-                  </div>
-                </div>
+            <h2 className="aboutSectionTitle">取得联系</h2>
+            <p className="aboutContactSubtitle">对合作感兴趣？让我们一起创造些什么</p>
+            <div className="aboutContactInfo">
+              <div className="aboutContactItem">
+                <a className="aboutContactLink" href={`mailto:${data.contact.email}`}>
+                  {data.contact.email}
+                </a>
+              </div>
+              <div className="aboutContactItem">
+                <a className="aboutContactLink" href={`tel:${data.contact.phone}`}>
+                  {data.contact.phone}
+                </a>
+              </div>
+              <div className="aboutContactItem">
+                <span className="aboutContactText">西安 · 中国</span>
               </div>
             </div>
-            <footer className="aboutFooter">© {new Date().getFullYear()} {data.name}. 保留所有权利。</footer>
+            <div className="aboutContactLinks">
+              <a className="aboutContactLink" href={data.resumePdfUrl} target="_blank" rel="noreferrer">
+                简历 PDF
+              </a>
+            </div>
+            <footer className="aboutFooter">
+              © {new Date().getFullYear()} {data.name}. 保留所有权利.
+            </footer>
           </div>
         </section>
       </main>
