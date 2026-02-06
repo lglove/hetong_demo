@@ -29,9 +29,9 @@ echo "🛑 停止现有服务..."
 docker-compose down
 echo ""
 
-# 重新构建前端镜像（不使用缓存）
-echo "🔨 重新构建前端镜像..."
-docker-compose build --no-cache frontend
+# 重新构建镜像（不使用缓存）
+echo "🔨 重新构建镜像..."
+docker-compose build --no-cache
 echo ""
 
 # 启动所有服务
@@ -49,9 +49,9 @@ echo "📊 检查服务状态..."
 docker-compose ps
 echo ""
 
-# 显示前端日志（最后20行）
-echo "📝 前端服务日志（最后20行）："
-docker-compose logs --tail=20 frontend
+# 显示日志（最后20行）
+echo "📝 服务日志（最后20行）："
+docker-compose logs --tail=20
 echo ""
 
 echo "✅ 部署完成！"
