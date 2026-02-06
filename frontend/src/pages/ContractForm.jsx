@@ -60,8 +60,6 @@ export default function ContractForm() {
           note: data.note,
         };
         setLoadedData(values);
-        // 使用 setFieldsValue 显式更新表单值，确保金额正确显示
-        form.setFieldsValue(values);
         setLoadingDetail(false);
       })
       .catch(() => {
@@ -70,13 +68,18 @@ export default function ContractForm() {
       });
   }, [id, isEdit, form]);
 
+  // 当 loadedData 更新时，设置表单值
+  useEffect(() => {
+    if (loadedData && isEdit) {
+      form.setFieldsValue(loadedData);
+    }
+  }, [loadedData, isEdit, form]);
+
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      // 编辑时优先从表单取金额，确保拿到当前输入值（避免 InputNumber 未同步到 values）
-      const amountRaw = isEdit
-        ? (form.getFieldValue("amount") ?? values.amount)
-        : values.amount;
+      // 统一从表单获取金额值，确保获取到最新的输入值
+      const amountRaw = form.getFieldValue("amount") ?? values.amount;
       const amountVal = amountRaw != null && amountRaw !== "" ? Number(amountRaw) : null;
       if (amountVal !== null && isNaN(amountVal)) {
         message.error("金额格式不正确");
@@ -166,10 +169,8 @@ export default function ContractForm() {
             min={0}
             step={0.01}
             style={{ width: "100%" }}
-            onChange={(value) => {
-              // 确保表单值同步更新，Form.useWatch 会自动触发大写金额更新
-              form.setFieldsValue({ amount: value ?? null });
-            }}
+            // 移除 onChange 中的 setFieldsValue，让 Form 自动管理值
+            // Form.useWatch 会自动监听表单值变化，触发大写金额更新
           />
           {amount != null && amount !== "" && !isNaN(Number(amount)) && (
             <div style={{ marginTop: 8, color: "#666", fontSize: "14px" }}>
