@@ -14,14 +14,14 @@ export default function About() {
       description: "专注于构建稳定、高效的后端系统\n用代码创造价值，用架构驱动业务",
       stats: [
         { label: "年工作经验", value: "10+", icon: "💼" },
-        { label: "技术项目", value: "50+", icon: "🚀" },
+        { label: "技术项目", value: "5+", icon: "🚀" },
         { label: "团队管理", value: "5+", icon: "👥" },
-        { label: "系统架构", value: "20+", icon: "🏗️" },
+        { label: "系统架构", value: "3+", icon: "🏗️" },
       ],
       about: {
         title: "关于我",
         subtitle: "技术架构的实践者",
-        description: "大家好！我是李戈，一位热爱技术、专注架构的后端工程师。在技术领域深耕10年，我始终相信代码的力量可以改变世界。",
+        description: "我是李戈，一位热爱技术、专注架构的后端工程师。在技术领域深耕10年，我始终相信代码的力量可以改变世界。",
         content: "我的技术理念很简单：稳定第一！通过微服务架构、容器化部署和可观测性建设，我帮助团队构建了多个高可用、高性能的系统。\n\n作为技术管理的实践者，我主导了多个大型项目的架构设计，推动了团队的容器化改造，建立了完善的开发流程体系。我的使命是：用技术驱动业务，用架构保障稳定！",
         concepts: [
           { icon: "🎯", text: "技术理念", desc: "稳定第一，架构驱动，持续优化" },
@@ -93,7 +93,7 @@ export default function About() {
           degree: "本科｜通信工程",
         },
       ],
-      certificates: ["大学英语四级"],
+      certificates: [],
       resumePdfUrl: "/resume/resume.pdf",
     }),
     []
@@ -272,7 +272,7 @@ export default function About() {
                 <a className="aboutContactCardValue" href={`tel:${data.contact.phone}`}>
                   {data.contact.phone}
                 </a>
-                <div className="aboutContactCardNote">工作日 9:00-18:00</div>
+                <div className="aboutContactCardNote">随时可联系</div>
               </div>
               <div className="aboutContactCard">
                 <div className="aboutContactIcon">✉️</div>

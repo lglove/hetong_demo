@@ -5,13 +5,27 @@
 }
 
 .app-header {
-  background: #1a365d;
+  background: rgba(10, 14, 39, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   color: #fff;
-  padding: 0 16px;
-  min-height: 56px;
+  padding: 0 24px;
+  min-height: 64px;
   display: flex;
   align-items: center;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+@media (prefers-color-scheme: light) {
+  .app-header {
+    background: rgba(248, 250, 252, 0.85);
+    color: #0f172a;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+  }
 }
 
 .app-header-inner {
@@ -30,9 +44,23 @@
 }
 
 .app-brand {
-  font-weight: 600;
-  font-size: 18px;
+  font-weight: 700;
+  font-size: 20px;
   white-space: nowrap;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media (prefers-color-scheme: light) {
+  .app-brand {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }
 
 .app-nav {
@@ -41,14 +69,31 @@
 }
 
 .app-nav a {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
   white-space: nowrap;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-weight: 500;
 }
 
 .app-nav a:hover,
 .app-nav a.active {
   color: #fff;
+  background: rgba(102, 126, 234, 0.2);
+}
+
+@media (prefers-color-scheme: light) {
+  .app-nav a {
+    color: rgba(15, 23, 42, 0.7);
+  }
+
+  .app-nav a:hover,
+  .app-nav a.active {
+    color: #0f172a;
+    background: rgba(102, 126, 234, 0.15);
+  }
 }
 
 .app-user {
@@ -66,10 +111,23 @@
 
 .app-user .ant-btn-link {
   color: rgba(255, 255, 255, 0.85);
+  transition: all 0.3s ease;
 }
 
 .app-user .ant-btn-link:hover {
   color: #fff;
+  background: rgba(102, 126, 234, 0.2);
+}
+
+@media (prefers-color-scheme: light) {
+  .app-user .ant-btn-link {
+    color: rgba(15, 23, 42, 0.7);
+  }
+
+  .app-user .ant-btn-link:hover {
+    color: #0f172a;
+    background: rgba(102, 126, 234, 0.15);
+  }
 }
 
 .app-drawer-nav {
@@ -77,13 +135,22 @@
   flex-direction: column;
   gap: 12px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.1);
 }
 
 .app-drawer-nav a {
-  color: #1a1a2e;
+  color: #0f172a;
   text-decoration: none;
   font-size: 16px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.app-drawer-nav a:hover {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
 }
 
 .app-drawer-user {
@@ -95,8 +162,8 @@
 
 .app-main {
   flex: 1;
-  padding: 16px;
-  background: #f5f6f8;
+  padding: 24px;
+  background: transparent;
   min-width: 0;
 }
 
