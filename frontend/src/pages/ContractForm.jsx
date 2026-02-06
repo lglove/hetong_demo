@@ -51,19 +51,36 @@ export default function ContractForm() {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      // 构建 payload，确保所有字段都被正确处理
+      // 编辑时优先从表单取金额，确保拿到当前输入值（避免 InputNumber 未同步到 values）
+      const amountRaw = isEdit
+        ? (form.getFieldValue("amount") ?? values.amount)
+        : values.amount;
+      const amountVal = amountRaw != null && amountRaw !== "" ? Number(amountRaw) : null;
+      if (amountVal !== null && isNaN(amountVal)) {
+        message.error("金额格式不正确");
+        setLoading(false);
+        return;
+      }
+      if (!isEdit && amountVal == null) {
+        message.error("请填写金额");
+        setLoading(false);
+        return;
+      }
+
       const payload = {
         title: values.title,
         contract_no: values.contract_no,
         party_a: values.party_a,
         party_b: values.party_b,
-        // 确保 amount 是数字类型，如果存在则转换
-        amount: values.amount != null && values.amount !== "" ? Number(values.amount) : undefined,
         sign_date: values.sign_date ? values.sign_date.format("YYYY-MM-DD") : null,
         expire_date: values.expire_date ? values.expire_date.format("YYYY-MM-DD") : null,
         status: values.status,
-        note: values.note,
+        note: values.note ?? null,
       };
+      // 金额：创建必填，编辑时始终提交以便后端正确更新
+      if (amountVal != null) {
+        payload.amount = amountVal;
+      }
       if (isEdit) {
         await updateContract(id, payload);
         message.success("已保存");

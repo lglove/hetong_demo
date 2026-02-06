@@ -146,7 +146,10 @@ class ContractService:
         from_status = contract.status.value
         update = data.model_dump(exclude_unset=True)
         for k, v in update.items():
-            setattr(contract, k, v)
+            if k == "amount" and v is not None:
+                setattr(contract, k, Decimal(str(v)))
+            else:
+                setattr(contract, k, v)
         db.commit()
         db.refresh(contract)
         _log(db, contract.id, user.id, "edit", from_status, contract.status.value)
@@ -292,7 +295,10 @@ class ContractService:
     ):
         if user.role != UserRole.super_admin:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="仅超级管理员可查看全局操作日志")
-        q = db.query(ContractOperationLog).options(joinedload(ContractOperationLog.user))
+        q = db.query(ContractOperationLog).options(
+            joinedload(ContractOperationLog.user),
+            joinedload(ContractOperationLog.contract),
+        )
         if contract_id is not None:
             q = q.filter(ContractOperationLog.contract_id == contract_id)
         if user_id is not None:

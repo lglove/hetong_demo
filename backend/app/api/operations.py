@@ -29,6 +29,7 @@ def list_operations_global(
             {
                 "id": log.id,
                 "contract_id": log.contract_id,
+                "contract_no": log.contract.contract_no if log.contract else "",
                 "user_id": log.user_id,
                 "username": log.user.username if log.user else "",
                 "action": log.action,
