@@ -626,6 +626,8 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .aboutExperienceItem {
@@ -704,6 +706,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 24px;
+  margin-bottom: 40px;
 }
 
 .aboutEducationItem {
@@ -937,6 +940,7 @@
   font-size: 14px;
   color: var(--about-text-muted);
   padding-top: 48px;
+  margin-top: 20px;
   border-top: 1px solid var(--about-card-border);
 }
 

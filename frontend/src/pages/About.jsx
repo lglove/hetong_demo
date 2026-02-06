@@ -289,11 +289,6 @@ export default function About() {
                 <div className="aboutContactCardNote">期望工作地点</div>
               </div>
             </div>
-            <div className="aboutContactAction">
-              <a className="aboutBtnPrimary" href={`mailto:${data.contact.email}`}>
-                开始对话
-              </a>
-            </div>
             <footer className="aboutFooter">
               © {new Date().getFullYear()} {data.name}. 保留所有权利.
             </footer>
