@@ -6,6 +6,8 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import cm
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 
 
 def _to_chinese_amount(amount) -> str:
@@ -88,6 +90,25 @@ def build_contract_pdf(contract) -> bytes:
     contract 需包含: title, contract_no, party_a, party_b, amount, sign_date,
     expire_date, status, note, creator (relationship with username)。
     """
+    # 注册中文字体
+    try:
+        # 尝试使用系统中文字体
+        pdfmetrics.registerFont(TTFont('SimSun', '/System/Library/Fonts/STHeiti Medium.ttc'))
+        chinese_font = 'SimSun'
+    except:
+        try:
+            # macOS 备选字体
+            pdfmetrics.registerFont(TTFont('SimSun', '/System/Library/Fonts/PingFang.ttc'))
+            chinese_font = 'SimSun'
+        except:
+            try:
+                # Linux 备选字体
+                pdfmetrics.registerFont(TTFont('SimSun', '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc'))
+                chinese_font = 'SimSun'
+            except:
+                # 如果都找不到，使用 Helvetica（会乱码，但不会报错）
+                chinese_font = 'Helvetica'
+
     buffer = BytesIO()
     doc = SimpleDocTemplate(
         buffer,
@@ -103,12 +124,14 @@ def build_contract_pdf(contract) -> bytes:
         parent=styles["Heading1"],
         fontSize=16,
         spaceAfter=12,
+        fontName=chinese_font,
     )
     label_style = ParagraphStyle(
         "Label",
         parent=styles["Normal"],
         fontSize=10,
         textColor=colors.grey,
+        fontName=chinese_font,
     )
 
     status_map = {
@@ -148,7 +171,7 @@ def build_contract_pdf(contract) -> bytes:
     table.setStyle(
         TableStyle(
             [
-                ("FONTNAME", (0, 0), (-1, -1), "Helvetica"),
+                ("FONTNAME", (0, 0), (-1, -1), chinese_font),
                 ("FONTSIZE", (0, 0), (-1, -1), 10),
                 ("BACKGROUND", (0, 0), (0, -1), colors.HexColor("#f5f5f5")),
                 ("TEXTCOLOR", (0, 0), (0, -1), colors.HexColor("#333333")),

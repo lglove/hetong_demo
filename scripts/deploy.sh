@@ -26,17 +26,17 @@ echo ""
 
 # 停止现有服务
 echo "🛑 停止现有服务..."
-docker-compose down
+docker compose down
 echo ""
 
 # 重新构建镜像（不使用缓存）
 echo "🔨 重新构建镜像..."
-docker-compose build --no-cache
+docker compose build --no-cache
 echo ""
 
 # 启动所有服务
 echo "🚀 启动服务..."
-docker-compose up -d
+docker compose up -d
 echo ""
 
 # 等待服务启动
@@ -46,12 +46,12 @@ echo ""
 
 # 检查服务状态
 echo "📊 检查服务状态..."
-docker-compose ps
+docker compose ps
 echo ""
 
 # 显示日志（最后20行）
 echo "📝 服务日志（最后20行）："
-docker-compose logs --tail=20
+docker compose logs --tail=20
 echo ""
 
 echo "✅ 部署完成！"
@@ -61,4 +61,4 @@ echo "   - HTTPS: https://lige.website"
 echo "   - HTTPS: https://www.lige.website"
 echo ""
 echo "💡 提示：如果遇到问题，可以查看日志："
-echo "   docker-compose logs -f frontend"
+echo "   docker compose logs -f frontend"
