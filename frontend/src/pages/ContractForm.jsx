@@ -25,23 +25,21 @@ export default function ContractForm() {
   const [loadingDetail, setLoadingDetail] = useState(isEdit);
   const [fileList, setFileList] = useState([]);
   const [loadedData, setLoadedData] = useState(null);
-  const [amountDisplay, setAmountDisplay] = useState(null);
   
   // 监听金额字段变化，用于实时显示中文大写金额
-  const amountFromForm = Form.useWatch("amount", form);
-  // 使用本地状态或表单值，确保联动实时更新
-  const amount = amountDisplay !== null ? amountDisplay : amountFromForm;
+  const amount = Form.useWatch("amount", form);
 
   useEffect(() => {
     if (!isEdit) {
       setLoadedData(null);
       setLoadingDetail(false);
-      setAmountDisplay(null);
+      // 重置表单为初始状态
+      form.resetFields();
+      form.setFieldsValue({ status: "draft" });
       return;
     }
     setLoadingDetail(true);
     setLoadedData(null);
-    setAmountDisplay(null);
     getContract(id)
       .then(({ data }) => {
         const rawAmount = data.amount;
@@ -62,14 +60,15 @@ export default function ContractForm() {
           note: data.note,
         };
         setLoadedData(values);
-        setAmountDisplay(amountNum);
+        // 使用 setFieldsValue 显式更新表单值，确保金额正确显示
+        form.setFieldsValue(values);
         setLoadingDetail(false);
       })
       .catch(() => {
         message.error("加载失败");
         setLoadingDetail(false);
       });
-  }, [id, isEdit]);
+  }, [id, isEdit, form]);
 
   const onFinish = async (values) => {
     setLoading(true);
@@ -168,8 +167,8 @@ export default function ContractForm() {
             step={0.01}
             style={{ width: "100%" }}
             onChange={(value) => {
-              // 确保金额变化时立即更新显示状态，保持大小写联动
-              setAmountDisplay(value);
+              // 确保表单值同步更新，Form.useWatch 会自动触发大写金额更新
+              form.setFieldsValue({ amount: value ?? null });
             }}
           />
           {amount != null && amount !== "" && !isNaN(Number(amount)) && (
