@@ -130,7 +130,7 @@ export default function About() {
                   联系我
                 </a>
                 <a className="aboutBtnGhost" href="#projects">
-                  查看作品
+                  项目经验
                 </a>
               </div>
             </div>
